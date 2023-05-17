@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eleadmin.goods.mapper.GoodsMapper">
+
+    <!-- 关联查询sql -->
+    <sql id="selectSql">
+        SELECT a.*
+        FROM goods a
+        <where>
+            <if test="param.id != null">
+                AND a.id = #{param.id}
+            </if>
+            <if test="param.goodsid != null">
+                AND a.goodsId = #{param.goodsid}
+            </if>
+            <if test="param.name != null">
+                AND a.name LIKE CONCAT('%', #{param.name}, '%')
+            </if>
+            <if test="param.price != null">
+                AND a.price LIKE CONCAT('%', #{param.price}, '%')
+            </if>
+            <if test="param.nums != null">
+                AND a.nums LIKE CONCAT('%', #{param.nums}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageRel" resultType="com.eleadmin.goods.entity.Goods">
+        <include refid="selectSql"></include>
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectListRel" resultType="com.eleadmin.goods.entity.Goods">
+        <include refid="selectSql"></include>
+    </select>
+
+<!--    增删改查-->
+    <select id="findAllGoods" resultType="com.eleadmin.goods.entity.Goods">
+        select id,goodsId,name,price,nums
+        from goods
+    </select>
+    <insert id="addGoods" parameterType="com.eleadmin.goods.entity.Goods">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into goods
+        (goodsId,name,price,nums,tenant_id)
+        values (#{goodsid},#{name},#{price},#{nums},2)
+    </insert>
+    <update id="updateGoods" parameterType="com.eleadmin.goods.entity.Goods">
+        update goods set name=#{name},price=#{price},nums=#{nums} where goodsId=#{goodsid}
+    </update>
+    <delete id="deleteGoods">
+        delete from goods where id = #{id}
+    </delete>
+
+
+
+</mapper>

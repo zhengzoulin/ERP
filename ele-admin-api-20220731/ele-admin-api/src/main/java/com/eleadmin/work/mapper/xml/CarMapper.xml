@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eleadmin.cartest.mapper.CarMapper">
+
+    <!-- 关联查询sql -->
+    <sql id="selectCar1Sql">
+        SELECT *
+        FROM car d
+        <where>
+
+            d.c_type = '罐车'
+
+            <if test="param.id != null">
+                 AND d.id = #{param.id}
+            </if>
+            <if test="param.cName != null">
+                AND d.cName LIKE CONCAT('%', #{param.cName}, '%')
+            </if>
+            <if test="param.cType != null">
+                AND d.cType LIKE CONCAT('%', #{param.cType}, '%')
+            </if>
+            <if test="param.cId != null">
+                AND d.cId LIKE CONCAT('%', #{param.cId}, '%')
+            </if>
+
+            <if test="param.cPeople != null">
+                AND d.cPeople = #{param.cPeople }
+            </if>
+            <if test="param.cCompany != null">
+                AND d.cCompany LIKE CONCAT('%', #{param.cCompany}, '%')
+            </if>
+            <if test="param.cStatus != null">
+                AND d.cStatus = #{param.cStatus}
+            </if>
+            <if test="param.cRemarks != null">
+                AND d.cRemarks LIKE CONCAT('%', #{param.cRemarks}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <sql id="selectCar2Sql">
+        SELECT d.*
+        FROM car d
+        <where>
+
+            d.c_type = '泵车'
+
+
+            <if test="param.id != null">
+                AND d.id = #{param.id}
+            </if>
+            <if test="param.cName != null">
+                AND d.cName LIKE CONCAT('%', #{param.cName}, '%')
+            </if>
+            <if test="param.cId != null">
+                AND d.cId LIKE CONCAT('%', #{param.cId}, '%')
+            </if>
+            <if test="param.cType != null">
+                AND d.cType LIKE CONCAT('%', #{param.cType}, '%')
+            </if>
+            <if test="param.cPeople != null">
+                AND d.cPeople = #{param.cPeople }
+            </if>
+            <if test="param.cCompany != null">
+                AND d.cCompany LIKE CONCAT('%', #{param.cCompany}, '%')
+            </if>
+            <if test="param.cStatus != null">
+                AND d.cStatus = #{param.cStatus}
+            </if>
+            <if test="param.cRemarks != null">
+                AND d.cRemarks LIKE CONCAT('%', #{param.cRemarks}, '%')
+            </if>
+        </where>
+    </sql>
+
+
+    <!-- 分页查询 -->
+    <select id="selectPageRel" resultType="com.eleadmin.cartest.entity.Car">
+        <include refid="selectCar1Sql"></include>
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectList1Rel" resultType="com.eleadmin.cartest.entity.Car">
+        <include refid="selectCar1Sql"></include>
+    </select>
+
+    <select id="selectList2Rel" resultType="com.eleadmin.cartest.entity.Car">
+        <include refid="selectCar2Sql"></include>
+    </select>
+
+    <select id="findByCondition1"  resultType="com.eleadmin.cartest.entity.Car">
+        select
+        *
+        from car
+
+        <where>
+
+            cType = '罐车'
+
+            <if test="cId != null and cId.toString() != '' and cId != 'null'">
+                and cId = #{cId}
+            </if>
+            <if test="cName != null and cName.toString() != '' and cName != 'null'">
+                and cName = #{cName}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByCondition2"  resultType="com.eleadmin.cartest.entity.Car">
+        select
+        *
+        from car
+
+
+
+        <where>
+
+            cType = '泵车'
+
+            <if test="cId != null and cId.toString() != '' and cId != 'null'">
+                and cId = #{cId}
+            </if>
+            <if test="cName != null and cName.toString() != '' and cName != 'null'">
+                and cName = #{cName}
+            </if>
+        </where>
+    </select>
+</mapper>

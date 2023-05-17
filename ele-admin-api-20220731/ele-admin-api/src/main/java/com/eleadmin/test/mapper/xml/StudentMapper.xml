@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eleadmin.test.mapper.StudentMapper">
+
+    <!-- 关联查询sql -->
+    <sql id="selectSql">
+        SELECT a.*
+        FROM student a
+        <where>
+            <if test="param.id != null">
+                AND a.id = #{param.id}
+            </if>
+            <if test="param.studentid != null">
+                AND a.studentId LIKE CONCAT('%', #{param.studentid}, '%')
+            </if>
+            <if test="param.name != null">
+                AND a.name LIKE CONCAT('%', #{param.name}, '%')
+            </if>
+            <if test="param.major != null">
+                AND a.major LIKE CONCAT('%', #{param.major}, '%')
+            </if>
+            <if test="param.grade != null">
+                AND a.grade LIKE CONCAT('%', #{param.grade}, '%')
+            </if>
+        </where>
+    </sql>
+    <insert id="addStudent" parameterType="com.eleadmin.test.entity.Student">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into student
+        (studentId,name,major,grade,tenant_id)
+        values (#{studentid},#{name},#{major},#{grade},2)
+    </insert>
+    <update id="updateStudent" parameterType="com.eleadmin.test.entity.Student">
+        update Student set name=#{name},major=#{major},grade=#{grade} where studentId=#{studentid}
+    </update>
+    <delete id="deleteStudent">
+        delete from student where id = #{id}
+    </delete>
+
+    <!-- 分页查询 -->
+    <select id="selectPageRel" resultType="com.eleadmin.test.entity.Student">
+        <include refid="selectSql"></include>
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectListRel" resultType="com.eleadmin.test.entity.Student">
+        <include refid="selectSql"></include>
+    </select>
+
+    <select id="findAllStudents" resultType="com.eleadmin.test.entity.Student">
+        select id,studentId,name,grade,major
+        from student
+    </select>
+
+</mapper>

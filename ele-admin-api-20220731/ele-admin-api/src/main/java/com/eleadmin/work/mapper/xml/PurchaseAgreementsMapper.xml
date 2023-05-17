@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eleadmin.work.mapper.PurchaseAgreementsMapper">
+
+    <!-- 关联查询sql -->
+    <sql id="selectSql">
+        SELECT a.*
+        FROM purchase_agreements a
+        <where>
+            <if test="param.id != null">
+                AND a.id = #{param.id}
+            </if>
+            <if test="param.agreementNumber != null">
+                AND a.agreement_number LIKE CONCAT('%', #{param.agreementNumber}, '%')
+            </if>
+            <if test="param.makeDate != null">
+                AND a.make_date LIKE CONCAT('%', #{param.makeDate}, '%')
+            </if>
+            <if test="param.rmsId != null">
+                AND a.rms_id = #{param.rmsId}
+            </if>
+            <if test="param.unitName != null">
+                AND a.unit_name LIKE CONCAT('%', #{param.unitName}, '%')
+            </if>
+            <if test="param.paRemarks != null">
+                AND a.pa_remarks LIKE CONCAT('%', #{param.paRemarks}, '%')
+            </if>
+            <if test="param.userId != null">
+                AND a.user_id = #{param.userId}
+            </if>
+            <if test="param.paState != null">
+                AND a.pa_state = #{param.paState}
+            </if>
+            <if test="param.supplyRawMaterials != null">
+                AND a.supply_raw_materials LIKE CONCAT('%', #{param.supplyRawMaterials}, '%')
+            </if>
+            <if test="param.unitPrice != null">
+                AND a.unit_price = #{param.unitPrice}
+            </if>
+            <if test="param.planQuantity != null">
+                AND a.plan_quantity = #{param.planQuantity}
+            </if>
+            <if test="param.planTotal != null">
+                AND a.plan_total = #{param.planTotal}
+            </if>
+            <if test="param.beganTime != null">
+                AND a.began_time LIKE CONCAT('%', #{param.beganTime}, '%')
+            </if>
+            <if test="param.endTime != null">
+                AND a.end_time LIKE CONCAT('%', #{param.endTime}, '%')
+            </if>
+            <if test="param.rmsPhone != null">
+                AND a.rms_phone LIKE CONCAT('%', #{param.rmsPhone}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageRel" resultType="com.eleadmin.work.entity.PurchaseAgreements">
+        <include refid="selectSql"></include>
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectListRel" resultType="com.eleadmin.work.entity.PurchaseAgreements">
+        <include refid="selectSql"></include>
+    </select>
+
+</mapper>

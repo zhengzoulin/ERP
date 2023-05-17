@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eleadmin.work.mapper.RawMaterialSupplierMapper">
+
+    <!-- 关联查询sql -->
+    <sql id="selectSql">
+        SELECT a.*
+        FROM raw_material_supplier a
+        <where>
+            <if test="param.id != null">
+                AND a.id = #{param.id}
+            </if>
+            <if test="param.unitName != null">
+                AND a.unit_name LIKE CONCAT('%', #{param.unitName}, '%')
+            </if>
+            <if test="param.unitType != null">
+                AND a.unit_type LIKE CONCAT('%', #{param.unitType}, '%')
+            </if>
+            <if test="param.rmsPhone != null">
+                AND a.rms_phone LIKE CONCAT('%', #{param.rmsPhone}, '%')
+            </if>
+            <if test="param.rmsAddress != null">
+                AND a.rms_address LIKE CONCAT('%', #{param.rmsAddress}, '%')
+            </if>
+            <if test="param.userId != null">
+                AND a.user_id = #{param.userId}
+            </if>
+            <if test="param.rmsState != null">
+                AND a.rms_state LIKE CONCAT('%', #{param.rmsState}, '%')
+            </if>
+            <if test="param.rmsRemarks != null">
+                AND a.rms_remarks LIKE CONCAT('%', #{param.rmsRemarks}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageRel" resultType="com.eleadmin.work.entity.RawMaterialSupplier">
+        <include refid="selectSql"></include>
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectListRel" resultType="com.eleadmin.work.entity.RawMaterialSupplier">
+        <include refid="selectSql"></include>
+    </select>
+
+    <select id="getRMByid" resultType="com.eleadmin.work.dto.RawMSDto" parameterType="int">
+        SELECT rms.id,rms.unit_name,rm.id AS rawMaterial_id,rm.platform_raw_materials,rm.supply_raw_materials,rm.status
+        FROM raw_materials rm
+                 JOIN rms_rw sm ON rm.id = sm.rm_id
+                 JOIN raw_material_supplier rms ON rms.id = sm.rms_id
+        <where>
+         rms.id = #{id}
+
+        </where>
+    </select>
+
+    <select id="getRMByid2" resultType="com.eleadmin.work.entity.RawMaterialSupplier" parameterType="int">
+        SELECT rms.id AS id,rr.id AS rrId,rms.unit_name,rm.id AS rawMaterialId,rm.platform_raw_materials,rm.supply_raw_materials,rm.status AS rmStatus
+        FROM raw_materials rm
+        JOIN rms_rw rr ON rm.id = rr.rm_id
+        JOIN raw_material_supplier rms ON rms.id = rr.rms_id
+        <where>
+            rms.id = #{id}
+
+        </where>
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="deleteRMById" resultType="int">
+        delete from rms_rw where id = #{rrId}
+    </select>
+
+</mapper>

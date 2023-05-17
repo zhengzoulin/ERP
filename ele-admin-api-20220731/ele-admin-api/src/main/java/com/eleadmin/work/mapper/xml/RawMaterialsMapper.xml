@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eleadmin.work.mapper.RawMaterialsMapper">
+
+    <!-- 关联查询sql -->
+    <sql id="selectSql">
+        SELECT a.*
+        FROM raw_materials a
+        <where>
+            <if test="param.id != null">
+                AND a.id = #{param.id}
+            </if>
+            <if test="param.platformRawMaterials != null">
+                AND a.platform_raw_materials LIKE CONCAT('%', #{param.platformRawMaterials}, '%')
+            </if>
+            <if test="param.supplyRawMaterials != null">
+                AND a.supply_raw_materials LIKE CONCAT('%', #{param.supplyRawMaterials}, '%')
+            </if>
+            <if test="param.rmRemarks != null">
+                AND a.rm_remarks LIKE CONCAT('%', #{param.rmRemarks}, '%')
+            </if>
+            <if test="param.rmSpecification != null">
+                AND a.rm_specification LIKE CONCAT('%', #{param.rmSpecification}, '%')
+            </if>
+            <if test="param.rmStatus != null">
+                AND a.rm_status = #{param.rmStatus}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageRel" resultType="com.eleadmin.work.entity.RawMaterials">
+        <include refid="selectSql"></include>
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectListRel" resultType="com.eleadmin.work.entity.RawMaterials">
+        <include refid="selectSql"></include>
+    </select>
+
+    <insert id="addGoods" parameterType="com.eleadmin.goods.entity.Goods">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into goods
+        (goodsId,name,price,nums,tenant_id)
+        values (#{goodsid},#{name},#{price},#{nums},2)
+    </insert>
+
+</mapper>
