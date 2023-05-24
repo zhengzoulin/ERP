@@ -34,9 +34,12 @@ public interface PurchaseAgreementsService extends IService<PurchaseAgreements> 
     /**
      * 根据id查询
      *
-     * @param id 
+     * @param id
      * @return PurchaseAgreements
      */
     PurchaseAgreements getByIdRel(Integer id);
 
+    String getUnitNameById(int id);
+
+    String getRMNameById(int id);
 }

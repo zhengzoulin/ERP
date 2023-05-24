@@ -1,6 +1,8 @@
 package com.eleadmin.work.controller;
 
 import com.eleadmin.common.core.web.BaseController;
+import com.eleadmin.work.entity.RawMaterialSupplier;
+import com.eleadmin.work.entity.RawMaterials;
 import com.eleadmin.work.service.PurchaseAgreementsService;
 import com.eleadmin.work.entity.PurchaseAgreements;
 import com.eleadmin.work.param.PurchaseAgreementsParam;
@@ -30,7 +32,7 @@ public class PurchaseAgreementsController extends BaseController {
     @Resource
     private PurchaseAgreementsService purchaseAgreementsService;
 
-//    @PreAuthorize("hasAuthority('work:purchaseAgreements:list')")
+    //    @PreAuthorize("hasAuthority('work:purchaseAgreements:list')")
     @OperationLog
     @ApiOperation("分页查询")
     @GetMapping("/page")
@@ -42,7 +44,7 @@ public class PurchaseAgreementsController extends BaseController {
         //return success(purchaseAgreementsService.pageRel(param));
     }
 
-//    @PreAuthorize("hasAuthority('work:purchaseAgreements:list')")
+    //    @PreAuthorize("hasAuthority('work:purchaseAgreements:list')")
     @OperationLog
     @ApiOperation("查询全部")
     @GetMapping()
@@ -54,7 +56,7 @@ public class PurchaseAgreementsController extends BaseController {
         //return success(purchaseAgreementsService.listRel(param));
     }
 
-//    @PreAuthorize("hasAuthority('work:purchaseAgreements:list')")
+    //    @PreAuthorize("hasAuthority('work:purchaseAgreements:list')")
     @OperationLog
     @ApiOperation("根据id查询")
     @GetMapping("/{id}")
@@ -64,18 +66,41 @@ public class PurchaseAgreementsController extends BaseController {
         //return success(purchaseAgreementsService.getByIdRel(id));
     }
 
-//    @PreAuthorize("hasAuthority('work:purchaseAgreements:save')")
+    //    @PreAuthorize("hasAuthority('work:purchaseAgreements:save')")
     @OperationLog
     @ApiOperation("添加")
     @PostMapping()
     public ApiResult<?> save(@RequestBody PurchaseAgreements purchaseAgreements) {
+        System.out.println("打印查看："+purchaseAgreements);
+        System.out.println("**************************************************************");
+        System.out.println("供应商"+purchaseAgreements.getRawMaterialSuppliers());
+        System.out.println("原材料"+purchaseAgreements.getRawMaterials());
+        int rmsId=0;int rmId=0;
+        for (RawMaterialSupplier r: purchaseAgreements.getRawMaterialSuppliers()
+        ) {
+            rmsId=r.getId();
+        }
+        for (RawMaterials r:purchaseAgreements.getRawMaterials()
+        ) {
+            rmId=r.getId();
+        }
+        System.out.println("rmsId:"+rmsId+"  "+"rmId:"+rmId);
+
+        String unitName= purchaseAgreementsService.getUnitNameById(rmsId);
+        String supplyRawMaterials=purchaseAgreementsService.getRMNameById(rmId);
+        System.out.println("unitName:"+unitName+"  "+"supplyRawMaterials:"+supplyRawMaterials);
+        purchaseAgreements.setUnitName(unitName);
+        purchaseAgreements.setSupplyRawMaterials(supplyRawMaterials);
+
+        System.out.println(purchaseAgreements);
+
         if (purchaseAgreementsService.save(purchaseAgreements)) {
             return success("添加成功");
         }
-        return fail("添加失败");
+        return fail("添加失败1");
     }
 
-//    @PreAuthorize("hasAuthority('work:purchaseAgreements:update')")
+    //    @PreAuthorize("hasAuthority('work:purchaseAgreements:update')")
     @OperationLog
     @ApiOperation("修改")
     @PutMapping()
@@ -86,7 +111,7 @@ public class PurchaseAgreementsController extends BaseController {
         return fail("修改失败");
     }
 
-//    @PreAuthorize("hasAuthority('work:purchaseAgreements:remove')")
+    //    @PreAuthorize("hasAuthority('work:purchaseAgreements:remove')")
     @OperationLog
     @ApiOperation("删除")
     @DeleteMapping("/{id}")
@@ -97,7 +122,7 @@ public class PurchaseAgreementsController extends BaseController {
         return fail("删除失败");
     }
 
-//    @PreAuthorize("hasAuthority('work:purchaseAgreements:save')")
+    //    @PreAuthorize("hasAuthority('work:purchaseAgreements:save')")
     @OperationLog
     @ApiOperation("批量添加")
     @PostMapping("/batch")
@@ -108,7 +133,7 @@ public class PurchaseAgreementsController extends BaseController {
         return fail("添加失败");
     }
 
-//    @PreAuthorize("hasAuthority('work:purchaseAgreements:update')")
+    //    @PreAuthorize("hasAuthority('work:purchaseAgreements:update')")
     @OperationLog
     @ApiOperation("批量修改")
     @PutMapping("/batch")
@@ -119,7 +144,7 @@ public class PurchaseAgreementsController extends BaseController {
         return fail("修改失败");
     }
 
-//    @PreAuthorize("hasAuthority('work:purchaseAgreements:remove')")
+    //    @PreAuthorize("hasAuthority('work:purchaseAgreements:remove')")
     @OperationLog
     @ApiOperation("批量删除")
     @DeleteMapping("/batch")

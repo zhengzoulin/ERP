@@ -5,7 +5,6 @@
     :keep-alive="keepAlive"
     :license="LICENSE_CODE"
   >
-    ffffffffffffffffffffffffffffffffffffffff
     <a-config-provider :locale="antLocale">
       <router-view />
     </a-config-provider>

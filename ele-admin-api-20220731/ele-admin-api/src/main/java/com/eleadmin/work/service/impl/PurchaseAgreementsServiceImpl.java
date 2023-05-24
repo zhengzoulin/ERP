@@ -7,8 +7,10 @@ import com.eleadmin.work.entity.PurchaseAgreements;
 import com.eleadmin.work.param.PurchaseAgreementsParam;
 import com.eleadmin.common.core.web.PageParam;
 import com.eleadmin.common.core.web.PageResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,6 +21,9 @@ import java.util.List;
  */
 @Service
 public class PurchaseAgreementsServiceImpl extends ServiceImpl<PurchaseAgreementsMapper, PurchaseAgreements> implements PurchaseAgreementsService {
+
+    @Resource
+    PurchaseAgreementsMapper purchaseAgreementsMapper;
 
     @Override
     public PageResult<PurchaseAgreements> pageRel(PurchaseAgreementsParam param) {
@@ -42,6 +47,16 @@ public class PurchaseAgreementsServiceImpl extends ServiceImpl<PurchaseAgreement
         PurchaseAgreementsParam param = new PurchaseAgreementsParam();
         param.setId(id);
         return param.getOne(baseMapper.selectListRel(param));
+    }
+
+    @Override
+    public String getUnitNameById(int id) {
+        return purchaseAgreementsMapper.getUnitNameById(id);
+    }
+
+    @Override
+    public String getRMNameById(int id) {
+        return purchaseAgreementsMapper.getRMNameById(id);
     }
 
 }

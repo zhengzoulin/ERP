@@ -64,4 +64,6 @@ public class PurchaseAgreementsParam extends BaseParam {
     private String rmsName;
 
     private Integer tenantId;
+
+    public PurchaseAgreementsParam(){};
 }

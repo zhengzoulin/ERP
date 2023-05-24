@@ -20,16 +20,9 @@
       :value="item.id"
     >
 
-      {{ item.supplyRawMaterials }}
+      {{ item.id }} {{ item.supplyRawMaterials }}
     </a-select-option>
-<!--    <a-select-option-->
-<!--      v-for="item in data"-->
-<!--      :key="item.supplyRawMaterials"-->
-<!--      :value="item.supplyRawMaterials"-->
-<!--    >-->
 
-<!--      {{ item.supplyRawMaterials }}-->
-<!--    </a-select-option>-->
   </a-select>
 </template>
 

@@ -65,4 +65,11 @@
         <include refid="selectSql"></include>
     </select>
 
+    <select id="getUnitNameById" resultType="String">
+        select unit_name from raw_material_supplier where id = #{id}
+    </select>
+    <select id="getRMNameById" resultType="String">
+        select supply_raw_materials from raw_materials where id = #{id}
+    </select>
+
 </mapper>

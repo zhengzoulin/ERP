@@ -24,7 +24,7 @@ public interface PurchaseAgreementsMapper extends BaseMapper<PurchaseAgreements>
      * @return List<PurchaseAgreements>
      */
     List<PurchaseAgreements> selectPageRel(@Param("page") IPage<PurchaseAgreements> page,
-                             @Param("param") PurchaseAgreementsParam param);
+                                           @Param("param") PurchaseAgreementsParam param);
 
     /**
      * 查询全部
@@ -34,4 +34,7 @@ public interface PurchaseAgreementsMapper extends BaseMapper<PurchaseAgreements>
      */
     List<PurchaseAgreements> selectListRel(@Param("param") PurchaseAgreementsParam param);
 
+    String getUnitNameById(@Param("id") int id);
+
+     String getRMNameById(@Param("id") int id);
 }
