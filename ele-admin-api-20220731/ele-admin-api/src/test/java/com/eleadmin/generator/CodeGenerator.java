@@ -41,7 +41,7 @@ public class CodeGenerator {
     private static final String MODULE_NAME = "work";
     // 需要生成的表
     private static final String[] TABLE_NAMES = new String[]{
-            "purchase_agreements",
+            "sale_agreements",
 
     };
     // 需要去除的表前缀

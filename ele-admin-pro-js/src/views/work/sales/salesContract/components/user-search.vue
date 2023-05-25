@@ -6,7 +6,7 @@
   >
     <a-row :gutter="8">
       <a-col :xl="6" :lg="12" :md="12" :sm="24" :xs="24">
-        <a-form-item label="客户id">
+        <a-form-item label="商品ID">
           <a-input
             v-model:value.trim="form.id"
             placeholder="请输入"
@@ -17,7 +17,7 @@
       <a-col :xl="6" :lg="12" :md="12" :sm="24" :xs="24">
         <a-form-item label="商品名">
           <a-input
-            v-model:value.trim="form.unitName"
+            v-model:value.trim="form.name"
             placeholder="请输入"
             allow-clear
           />
@@ -56,7 +56,7 @@
   // 表单数据
   const { form, resetFields } = useFormData({
     id: '',
-    unitName: '',
+    name: '',
     // sex: undefined,
     ...props.form
   });

@@ -128,14 +128,14 @@
     // },
     {
       title: '单位名称',
-      key: 'unitname',
-      dataIndex: 'unitname',
+      key: 'unitName',
+      dataIndex: 'unitName',
       sorter: true,
       showSorterTooltip: false
     },
     {
       title: '单位类型',
-      dataIndex: 'unittype',
+      dataIndex: 'unitType',
 
       align: 'center',
       sorter: true,
@@ -144,16 +144,18 @@
     {
       title: '联系电话',
       dataIndex: 'cphone',
-      width: 120,
+      align: 'center',
       sorter: true,
       showSorterTooltip: false
     },
     {
       title: '地址',
       dataIndex: 'caddress',
+      align: 'center',
       sorter: true,
       showSorterTooltip: false
     },
+
 
     {
       title: '状态',

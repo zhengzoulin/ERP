@@ -29,7 +29,7 @@ public class Customer implements Serializable {
 
     private String cPhone;
 
-    private String cAdress;
+    private String cAddress;
 
     private Integer status;
 

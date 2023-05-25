@@ -89,7 +89,9 @@ public class PurchaseAgreementsController extends BaseController {
         String unitName= purchaseAgreementsService.getUnitNameById(rmsId);
         String supplyRawMaterials=purchaseAgreementsService.getRMNameById(rmId);
         System.out.println("unitName:"+unitName+"  "+"supplyRawMaterials:"+supplyRawMaterials);
+        purchaseAgreements.setRmsId(rmsId);
         purchaseAgreements.setUnitName(unitName);
+        purchaseAgreements.setStatus(1);
         purchaseAgreements.setSupplyRawMaterials(supplyRawMaterials);
 
         System.out.println(purchaseAgreements);

@@ -1,6 +1,7 @@
 package com.eleadmin.work.controller;
 
 import com.eleadmin.common.core.web.BaseController;
+import com.eleadmin.work.entity.RawMaterials;
 import com.eleadmin.work.service.CustomerService;
 import com.eleadmin.work.entity.Customer;
 import com.eleadmin.work.param.CustomerParam;
@@ -15,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -130,4 +132,20 @@ public class CustomerController extends BaseController {
         return fail("删除失败");
     }
 
-}
+    @OperationLog
+    @ApiOperation("修改原材料状态")
+    @PutMapping("/status")
+    public ApiResult<?> updateStatus(@RequestBody RawMaterials rawMaterials) {
+        if (rawMaterials.getId() == null || rawMaterials.getStatus() == null || !Arrays.asList(0, 1).contains(rawMaterials.getStatus())) {
+            return fail("参数不正确");
+        }
+        RawMaterials R=new RawMaterials();
+        R.setId(rawMaterials.getId());
+        R.setStatus(rawMaterials.getStatus());
+        if(rawMaterialsService.updateById(R)){
+            return success("修改成功");
+        }
+        return fail("修改失败");
+
+
+    }

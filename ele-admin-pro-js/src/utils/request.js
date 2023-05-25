@@ -9,7 +9,7 @@ import { API_BASE_URL, TOKEN_HEADER_NAME, LAYOUT_PATH } from '@/config/setting';
 import { getToken, setToken } from './token-util';
 import { logout } from './page-tab-util';
 
-debugger
+
 const service = axios.create({
   baseURL: API_BASE_URL
   // baseURL: process.env.VUE_APP_API_BASE_URL
