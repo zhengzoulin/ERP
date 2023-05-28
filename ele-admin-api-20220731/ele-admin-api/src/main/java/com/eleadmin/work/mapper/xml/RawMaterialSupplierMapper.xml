@@ -71,4 +71,8 @@
         delete from rms_rw where id = #{rrId}
     </select>
 
+    <!-- 查询全部 -->
+    <select id="addSupplyRaw" resultType="int">
+        INSERT INTO rms_rw (rms_id, rm_id) VALUES (#{rmsId},#{rmId})
+    </select>
 </mapper>

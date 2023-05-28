@@ -80,5 +80,13 @@ public class RawMaterialSupplierServiceImpl extends ServiceImpl<RawMaterialSuppl
         return false;
     }
 
+    @Override
+    public boolean addSupplyRaw(int rmsId, int rmId) {
+        if(rawMaterialSupplierMapper.addSupplyRaw(rmsId,rmId)==1){
+            return  true;
+        }
+        return false;
+    }
+
 
 }

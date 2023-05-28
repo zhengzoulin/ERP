@@ -40,4 +40,5 @@ public interface RawMaterialSupplierMapper extends BaseMapper<RawMaterialSupplie
     List<RawMaterialSupplier> getRMByid2(int id);
 
     int deleteRMById(int rrId);
+    int addSupplyRaw(int rmsId, int rmId);
 }

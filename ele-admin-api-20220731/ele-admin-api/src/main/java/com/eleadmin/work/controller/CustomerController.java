@@ -32,7 +32,7 @@ public class CustomerController extends BaseController {
     @Resource
     private CustomerService customerService;
 
-//    @PreAuthorize("hasAuthority('work:customer:list')")
+    //    @PreAuthorize("hasAuthority('work:customer:list')")
     @OperationLog
     @ApiOperation("分页查询")
     @GetMapping("/page")
@@ -44,7 +44,7 @@ public class CustomerController extends BaseController {
         //return success(customerService.pageRel(param));
     }
 
-//    @PreAuthorize("hasAuthority('work:customer:list')")
+    //    @PreAuthorize("hasAuthority('work:customer:list')")
     @OperationLog
     @ApiOperation("查询全部")
     @GetMapping()
@@ -56,7 +56,7 @@ public class CustomerController extends BaseController {
         //return success(customerService.listRel(param));
     }
 
-//    @PreAuthorize("hasAuthority('work:customer:list')")
+    //    @PreAuthorize("hasAuthority('work:customer:list')")
     @OperationLog
     @ApiOperation("根据id查询")
     @GetMapping("/{id}")
@@ -66,7 +66,7 @@ public class CustomerController extends BaseController {
         //return success(customerService.getByIdRel(id));
     }
 
-//    @PreAuthorize("hasAuthority('work:customer:save')")
+    //    @PreAuthorize("hasAuthority('work:customer:save')")
     @OperationLog
     @ApiOperation("添加")
     @PostMapping()
@@ -77,7 +77,7 @@ public class CustomerController extends BaseController {
         return fail("添加失败");
     }
 
-//    @PreAuthorize("hasAuthority('work:customer:update')")
+    //    @PreAuthorize("hasAuthority('work:customer:update')")
     @OperationLog
     @ApiOperation("修改")
     @PutMapping()
@@ -88,7 +88,7 @@ public class CustomerController extends BaseController {
         return fail("修改失败");
     }
 
-//    @PreAuthorize("hasAuthority('work:customer:remove')")
+    //    @PreAuthorize("hasAuthority('work:customer:remove')")
     @OperationLog
     @ApiOperation("删除")
     @DeleteMapping("/{id}")
@@ -99,7 +99,7 @@ public class CustomerController extends BaseController {
         return fail("删除失败");
     }
 
-//    @PreAuthorize("hasAuthority('work:customer:save')")
+    //    @PreAuthorize("hasAuthority('work:customer:save')")
     @OperationLog
     @ApiOperation("批量添加")
     @PostMapping("/batch")
@@ -110,7 +110,7 @@ public class CustomerController extends BaseController {
         return fail("添加失败");
     }
 
-//    @PreAuthorize("hasAuthority('work:customer:update')")
+    //    @PreAuthorize("hasAuthority('work:customer:update')")
     @OperationLog
     @ApiOperation("批量修改")
     @PutMapping("/batch")
@@ -121,7 +121,7 @@ public class CustomerController extends BaseController {
         return fail("修改失败");
     }
 
-//    @PreAuthorize("hasAuthority('work:customer:remove')")
+    //    @PreAuthorize("hasAuthority('work:customer:remove')")
     @OperationLog
     @ApiOperation("批量删除")
     @DeleteMapping("/batch")
@@ -131,21 +131,20 @@ public class CustomerController extends BaseController {
         }
         return fail("删除失败");
     }
-
-    @OperationLog
-    @ApiOperation("修改原材料状态")
-    @PutMapping("/status")
-    public ApiResult<?> updateStatus(@RequestBody RawMaterials rawMaterials) {
-        if (rawMaterials.getId() == null || rawMaterials.getStatus() == null || !Arrays.asList(0, 1).contains(rawMaterials.getStatus())) {
-            return fail("参数不正确");
-        }
-        RawMaterials R=new RawMaterials();
-        R.setId(rawMaterials.getId());
-        R.setStatus(rawMaterials.getStatus());
-        if(rawMaterialsService.updateById(R)){
-            return success("修改成功");
-        }
-        return fail("修改失败");
-
-
-    }
+}
+//    @OperationLog
+//    @ApiOperation("修改原材料状态")
+//    @PutMapping("/status")
+//    public ApiResult<?> updateStatus(@RequestBody RawMaterials rawMaterials) {
+//        if (rawMaterials.getId() == null || rawMaterials.getStatus() == null || !Arrays.asList(0, 1).contains(rawMaterials.getStatus())) {
+//            return fail("参数不正确");
+//        }
+//        RawMaterials R=new RawMaterials();
+//        R.setId(rawMaterials.getId());
+//        R.setStatus(rawMaterials.getStatus());
+//        if(rawMaterialsService.updateById(R)){
+//            return success("修改成功");
+//        }
+//        return fail("修改失败");
+//
+//    }
