@@ -34,7 +34,7 @@ public interface CustomerService extends IService<Customer> {
     /**
      * 根据id查询
      *
-     * @param id 
+     * @param id
      * @return Customer
      */
     Customer getByIdRel(Integer id);
