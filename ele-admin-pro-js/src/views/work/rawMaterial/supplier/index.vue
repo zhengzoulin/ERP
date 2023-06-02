@@ -2,11 +2,12 @@
   <div class="ele-body">
 
     <vxe-modal v-model="demo1.value5" width="600" show-footer>
-      <vxe-button status="primary" content="+添加" @click="addRawMaterials()" ></vxe-button>
+      <vxe-button status="primary" content="+添加"></vxe-button>
+<!--      <vxe-button v-model="students.value.unit_Name"></vxe-button>-->
       <vxe-table
         stripe
         :span-method="colspanMethod"
-        :data="rawMaterials">
+        :data="students">
         <vxe-column type="seq" width="60"></vxe-column>
         <vxe-column field="unitName" title="供应商"></vxe-column>
         <vxe-column field="supplyRawMaterials" title="供应原材料"></vxe-column>
@@ -17,28 +18,6 @@
         </vxe-column>
       </vxe-table>
     </vxe-modal>
-
-    <vxe-modal v-model="demo1.value6" width="600" :position="{top: 160, left: 900}">
-      <template #default>
-        <vxe-table
-          show-overflow
-          height="300"
-          :sync-resize="demo1.value6"
-          :data="supplyRaws">
-          <vxe-column type="seq" width="60"></vxe-column>
-          <vxe-column field="supplyRawMaterials" title="供应原材料"></vxe-column>
-          <vxe-column field="platformRawMaterials" title="平台原材料"></vxe-column>
-          <vxe-column field="rmRemarks" title="备注"></vxe-column>
-          <vxe-column field="rmSpecification" title="规格"></vxe-column>
-          <vxe-column field="status" title="状态"></vxe-column>
-          <vxe-column field="operate" title="Operate" #default="{ row }">
-            <vxe-button type="text" status="danger" content="添加+" @click="addSupplyRawEvent(row)"></vxe-button>
-          </vxe-column>
-        </vxe-table>
-      </template>
-    </vxe-modal>
-
-
 
 
 
@@ -121,7 +100,6 @@
 <script setup>
   import { createVNode, ref, reactive } from 'vue';
   import { message, Modal } from 'ant-design-vue/es';
-  import { VXETable } from 'vxe-table'
   import {
     PlusOutlined,
     DeleteOutlined,
@@ -136,51 +114,28 @@
     pageGoods,
     removeGoods,
     updateUserStatus,
+    // updateUserPassword
   } from '@/api/work/rawMaterial/supplier';
-    import request from "@/utils/request";
+
+  import request from "@/utils/request";
+  import axios from 'axios'
 
 
   const demo1 = reactive({
     value5: false,
-    value6:false,
-    supplyId:undefined,
-
   })
 
-  let supplyRaws=ref([])
-
-  // let supplyRaws=ref([{id: "001", supplyRawMaterials: "测试1", platformRawMaterials: "测试2",rmRemarks:'',rmSpecification:"",status: 1}])
-  let rawMaterials = ref([{id: "001",rawMaterialId: "",rrId: 1,unit_Name:"", supplyRawMaterials: "测试1", platformRawMaterials: "测试2",rmStatus: 1},
+  let students = ref([{id: "001",rawMaterialId: "",rrId: 1,unit_Name:"", supplyRawMaterials: "测试1", platformRawMaterials: "测试2",rmStatus: 1},
     {id: "002",rawMaterialId: "",rrId: 1,unit_Name:"", supplyRawMaterials: "测试3", platformRawMaterials: "测试4",rmStatus: 1},
     {id: "003",rawMaterialId: "",rrId: 1,unit_Name:"", supplyRawMaterials: "测试5", platformRawMaterials: "测试6",rmStatus: 1}])
-
-  const addRawMaterials=async ()=>{
-    demo1.value6 = true
-    const res=await request.get('/work/raw-materials');
-    supplyRaws.value=res.data.data;
-    console.log(supplyRaws)
-    return res
-  }
-  const addSupplyRawEvent=async (row)=>{
-    const supplyId=demo1.supplyId;
-    const RawId=row.id
-    const res=await request.get('/work/raw-material-supplier/addSupplyRaw/'+supplyId+'/'+RawId);
-    if(res.data.code==0){
-      return res.data.message
-    }
-    demo1.value6=false
-    row.id=demo1.supplyId
-    await selectAllGoods(row)
-    return Promise.reject((new Error(res.data.message)))
-  }
-
+  // let students=ref([])
   const selectAllGoods=async (record)=>{
     demo1.value5 = true
     // const res=await request.delete('/test/student/deleteStudent/'+row.id)
     const res=await request.get('/work/raw-material-supplier/find/'+record.id);
-    demo1.supplyId=record.id
     console.log(res.data.data);
-    rawMaterials.value=res.data.data;
+    students.value=res.data.data;
+    // console.log(item.goods)
     console.log(res)
     return res
   }
@@ -191,9 +146,12 @@
     if(res.data.code==0){
       return res.data.message
     }
+
     await selectAllGoods(row)
     reload()
     return Promise.reject((new Error(res.data.message)))
+
+
 
   }
 

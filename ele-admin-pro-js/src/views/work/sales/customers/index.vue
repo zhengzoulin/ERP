@@ -45,16 +45,16 @@
 
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'supplyRawMaterials'">
-<!--            <router-link :to="'/work/raw-materials/details?id=' + record.id">-->
-<!--              {{ record.supplyRawMaterials }}-->
+            <!--            <router-link :to="'/work/raw-materials/details?id=' + record.id">-->
+            <!--              {{ record.supplyRawMaterials }}-->
 
-<!--            </router-link>-->
+            <!--            </router-link>-->
           </template>
-<!--          <template v-else-if="column.key === 'roles'">-->
-<!--            <a-tag v-for="item in record.roles" :key="item.roleId" color="blue">-->
-<!--              {{ item.roleName }}-->
-<!--            </a-tag>-->
-<!--          </template>-->
+          <!--          <template v-else-if="column.key === 'roles'">-->
+          <!--            <a-tag v-for="item in record.roles" :key="item.roleId" color="blue">-->
+          <!--              {{ item.roleName }}-->
+          <!--            </a-tag>-->
+          <!--          </template>-->
           <template v-else-if="column.key === 'status'">
             <a-switch
               :checked="record.status === 0"
@@ -65,7 +65,7 @@
             <a-space>
               <a @click="openEdit(record)">修改</a>
               <a-divider type="vertical" />
-<!--              <a @click="resetPsw(record)">重置密码</a>-->
+              <!--              <a @click="resetPsw(record)">重置密码</a>-->
               <a-divider type="vertical" />
               <a-popconfirm
                 placement="topRight"
@@ -87,213 +87,203 @@
 </template>
 
 <script setup>
-  import { createVNode, ref, reactive } from 'vue';
-  import { message, Modal } from 'ant-design-vue/es';
-  import {
-    PlusOutlined,
-    DeleteOutlined,
-    UploadOutlined,
-    ExclamationCircleOutlined
-  } from '@ant-design/icons-vue';
-  import { toDateString, messageLoading } from 'ele-admin-pro/es';
-  import UserSearch from './components/user-search.vue';
-  import UserEdit from './components/user-edit.vue';
-  import UserImport from './components/user-import.vue';
-  import {
-    pageGoods,
-    removeGoods,
-    updateUserStatus,
-    // updateUserPassword
-  } from '@/api/work/sales/customer';
+import { createVNode, ref, reactive } from 'vue';
+import { message, Modal } from 'ant-design-vue/es';
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  UploadOutlined,
+  ExclamationCircleOutlined
+} from '@ant-design/icons-vue';
+import { toDateString, messageLoading } from 'ele-admin-pro/es';
+import UserSearch from './components/user-search.vue';
+import UserEdit from './components/user-edit.vue';
+import UserImport from './components/user-import.vue';
+import {
+  pageGoods,
+  removeGoods,
+  updateUserStatus,
+  // updateUserPassword
+} from '@/api/work/sales/customer';
 
-  // 表格实例
-  const tableRef = ref(null);
+// 表格实例
+const tableRef = ref(null);
 
-  // 表格列配置
-  const columns = ref([
-    {
-      key: 'index',
-      width: 48,
-      align: 'center',
-      fixed: 'left',
-      hideInSetting: true,
-      customRender: ({ index }) => index + (tableRef.value?.tableIndex ?? 0)
-    },
-    // {
-    //   title: '供应原材料id',     //此处为列表属性栏展示绑定
-    //   key: 'id',
-    //   dataIndex: 'id',
-    //   sorter: true,
-    //   showSorterTooltip: false
-    // },
-    {
-      title: '单位名称',
-      key: 'unitName',
-      dataIndex: 'unitName',
-      sorter: true,
-      showSorterTooltip: false
-    },
-    {
-      title: '单位类型',
-      dataIndex: 'unitType',
+// 表格列配置
+const columns = ref([
+  {
+    key: 'index',
+    width: 48,
+    align: 'center',
+    fixed: 'left',
+    hideInSetting: true,
+    customRender: ({ index }) => index + (tableRef.value?.tableIndex ?? 0)
+  },
+  {
+    title: '单位名称',
+    key: 'unitName',
+    dataIndex: 'unitName',
+    sorter: true,
+    showSorterTooltip: false
+  },
+  {
+    title: '单位类型',
+    dataIndex: 'unitType',
+    align: 'center',
+    sorter: true,
+    showSorterTooltip: false
+  },
+  {
+    title: '联系电话',
+    dataIndex: 'cPhone',
+    align: 'center',
+    sorter: true,
+    showSorterTooltip: false
+  },
+  {
+    title: '地址',
+    dataIndex: 'cAddress',
+    align: 'center',
+    sorter: true,
+    showSorterTooltip: false
+  },
+  {
+    title: '状态',
+    key: 'status',
+    dataIndex: 'status',
+    sorter: true,
+    showSorterTooltip: false,
+    width: 90,
+    align: 'center'
+  },
+  {
+    title: '操作',
+    key: 'action',
+    width: 200,
+    align: 'center'
+  }
+]);
 
-      align: 'center',
-      sorter: true,
-      showSorterTooltip: false
-    },
-    {
-      title: '联系电话',
-      dataIndex: 'cphone',
-      align: 'center',
-      sorter: true,
-      showSorterTooltip: false
-    },
-    {
-      title: '地址',
-      dataIndex: 'caddress',
-      align: 'center',
-      sorter: true,
-      showSorterTooltip: false
-    },
+// 表格选中数据
+const selection = ref([]);
 
+// 当前编辑数据
+const current = ref(null);
 
-    {
-      title: '状态',
-      key: 'status',
-      dataIndex: 'status',
-      sorter: true,
-      showSorterTooltip: false,
-      width: 90,
-      align: 'center'
-    },
-    {
-      title: '操作',
-      key: 'action',
-      width: 200,
-      align: 'center'
+// 是否显示编辑弹窗
+const showEdit = ref(false);
+
+// 是否显示用户导入弹窗
+const showImport = ref(false);
+
+// 默认搜索条件
+const defaultWhere = reactive({
+  id: '',
+  name: ''
+});
+
+// 表格数据源
+const datasource = ({ page, limit, where, orders }) => {
+  return pageGoods({ ...where, ...orders, page, limit });
+};
+
+/* 搜索 */
+const reload = (where) => {
+  selection.value = [];
+  tableRef?.value?.reload({ page: 1, where });
+};
+
+/* 打开编辑弹窗 */
+const openEdit = (row) => {
+  current.value = row ?? null;
+  showEdit.value = true;
+};
+
+/* 打开编辑弹窗 */
+const openImport = () => {
+  showImport.value = true;
+};
+
+/* 删除单个 */
+const remove = (row) => {
+  const hide = messageLoading('请求中..', 0);
+  removeGoods(row.id)
+    .then((msg) => {
+      hide();
+      message.success(msg);
+      reload();
+    })
+    .catch((e) => {
+      hide();
+      message.error(e.message);
+    });
+};
+
+/* 批量删除 */
+const removeBatch = () => {
+  if (!selection.value.length) {
+    message.error('请至少选择一条数据');
+    return;
+  }
+  Modal.confirm({
+    title: '提示',
+    content: '确定要删除选中的用户吗?',
+    icon: createVNode(ExclamationCircleOutlined),
+    maskClosable: true,
+    onOk: () => {
+      const hide = messageLoading('请求中..', 0);
+      removeUsers(selection.value.map((d) => d.userId))
+        .then((msg) => {
+          hide();
+          message.success(msg);
+          reload();
+        })
+        .catch((e) => {
+          hide();
+          message.error(e.message);
+        });
     }
-  ]);
-
-  // 表格选中数据
-  const selection = ref([]);
-
-  // 当前编辑数据
-  const current = ref(null);
-
-  // 是否显示编辑弹窗
-  const showEdit = ref(false);
-
-  // 是否显示用户导入弹窗
-  const showImport = ref(false);
-
-  // 默认搜索条件
-  const defaultWhere = reactive({
-    id: '',
-    name: ''
   });
+};
 
-  // 表格数据源
-  const datasource = ({ page, limit, where, orders }) => {
-    return pageGoods({ ...where, ...orders, page, limit });
-  };
-
-  /* 搜索 */
-  const reload = (where) => {
-    selection.value = [];
-    tableRef?.value?.reload({ page: 1, where });
-  };
-
-  /* 打开编辑弹窗 */
-  const openEdit = (row) => {
-    current.value = row ?? null;
-    showEdit.value = true;
-  };
-
-  /* 打开编辑弹窗 */
-  const openImport = () => {
-    showImport.value = true;
-  };
-
-  /* 删除单个 */
-  const remove = (row) => {
-    const hide = messageLoading('请求中..', 0);
-    removeGoods(row.id)
-      .then((msg) => {
-        hide();
-        message.success(msg);
-        reload();
-      })
-      .catch((e) => {
-        hide();
-        message.error(e.message);
-      });
-  };
-
-  /* 批量删除 */
-  const removeBatch = () => {
-    if (!selection.value.length) {
-      message.error('请至少选择一条数据');
-      return;
+/* 重置用户密码 */
+const resetPsw = (row) => {
+  Modal.confirm({
+    title: '提示',
+    content: '确定要重置此用户的密码为"123456"吗?',
+    icon: createVNode(ExclamationCircleOutlined),
+    maskClosable: true,
+    onOk: () => {
+      const hide = messageLoading('请求中..', 0);
+      updateUserPassword(row.userId)
+        .then((msg) => {
+          hide();
+          message.success(msg);
+        })
+        .catch((e) => {
+          hide();
+          message.error(e.message);
+        });
     }
-    Modal.confirm({
-      title: '提示',
-      content: '确定要删除选中的用户吗?',
-      icon: createVNode(ExclamationCircleOutlined),
-      maskClosable: true,
-      onOk: () => {
-        const hide = messageLoading('请求中..', 0);
-        removeUsers(selection.value.map((d) => d.userId))
-          .then((msg) => {
-            hide();
-            message.success(msg);
-            reload();
-          })
-          .catch((e) => {
-            hide();
-            message.error(e.message);
-          });
-      }
-    });
-  };
+  });
+};
 
-  /* 重置用户密码 */
-  const resetPsw = (row) => {
-    Modal.confirm({
-      title: '提示',
-      content: '确定要重置此用户的密码为"123456"吗?',
-      icon: createVNode(ExclamationCircleOutlined),
-      maskClosable: true,
-      onOk: () => {
-        const hide = messageLoading('请求中..', 0);
-        updateUserPassword(row.userId)
-          .then((msg) => {
-            hide();
-            message.success(msg);
-          })
-          .catch((e) => {
-            hide();
-            message.error(e.message);
-          });
-      }
+/* 修改用户状态 */
+const editStatus = (checked, row) => {
+  const status = checked ? 0 : 1;
+  updateUserStatus(row.id, status)
+    .then((msg) => {
+      row.status = status;
+      message.success(msg);
+    })
+    .catch((e) => {
+      message.error(e.message);
     });
-  };
-
-  /* 修改用户状态 */
-  const editStatus = (checked, row) => {
-    const status = checked ? 0 : 1;
-    updateUserStatus(row.id, status)
-      .then((msg) => {
-        row.status = status;
-        message.success(msg);
-      })
-      .catch((e) => {
-        message.error(e.message);
-      });
-  };
+};
 </script>
 
 <script>
-  export default {
-    name: 'SystemUser'
-  };
+export default {
+  name: 'SystemUser'
+};
 </script>

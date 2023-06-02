@@ -3,10 +3,8 @@ package com.eleadmin.work.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.Date;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,12 +25,12 @@ public class Engineering implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-
     private String engineeringName;
 
     private Integer unitId;
 
-//    @TableField(exist = false)
+//   @TableField(exist = false)
+
     private String engineeringAddress;
 
     private Double distance;

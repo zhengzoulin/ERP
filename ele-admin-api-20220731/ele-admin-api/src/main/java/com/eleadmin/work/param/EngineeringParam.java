@@ -27,14 +27,12 @@ public class EngineeringParam extends BaseParam {
 
     private String engineeringName;
 
-//    @QueryField(type = QueryType.EQ)
     private Integer unitId;
 
     private String engineeringAddress;
 
     private Double distance;
 
-//    @QueryField(type = QueryType.EQ)
     private Integer status;
 
 }

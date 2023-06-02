@@ -6,20 +6,20 @@
         :label-col="{ md: 2, sm: 4, xs: 6 }"
         :wrapper-col="{ md: 22, sm: 20, xs: 18 }"
       >
-<!--        <a-form-item label="原材料id">-->
-<!--          <div class="ele-text-secondary">{{ form.id }}</div>-->
-<!--        </a-form-item>-->
+        <!--        <a-form-item label="原材料id">-->
+        <!--          <div class="ele-text-secondary">{{ form.id }}</div>-->
+        <!--        </a-form-item>-->
         <a-form-item label="单位名称">
-          <div class="ele-text-secondary">{{ form.platformRawMaterials }}</div>
+          <div class="ele-text-secondary">{{ form.unitName }}</div>
         </a-form-item>
         <a-form-item label="单位类型">
-          <div class="ele-text-secondary">{{ form.supplyRawMaterials }}</div>
+          <div class="ele-text-secondary">{{ form.unitType }}</div>
         </a-form-item>
-        <a-form-item label="型号规格">
-          <div class="ele-text-secondary">{{ form.rmSpecification }}</div>
+        <a-form-item label="联系电话">
+          <div class="ele-text-secondary">{{ form.cPhone }}</div>
         </a-form-item>
-        <a-form-item label="备注">
-          <div class="ele-text-secondary">{{ form.rmRemarks }}</div>
+        <a-form-item label="地址">
+          <div class="ele-text-secondary">{{ form.cAddress }}</div>
         </a-form-item>
         <a-form-item label="状态">
           <a-badge
@@ -37,71 +37,71 @@
 </template>
 
 <script setup>
-  import { ref, watch, unref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import { message } from 'ant-design-vue/es';
-  import { toDateString } from 'ele-admin-pro/es';
-  import useFormData from '@/utils/use-form-data';
-  import { setPageTabTitle } from '@/utils/page-tab-util';
-  import { getGoods } from '@/api/work/rawMaterial/rmSupply';
-  const ROUTE_PATH = '/work/rawMaterial/rmSupply/details';
+import { ref, watch, unref } from 'vue';
+import { useRouter } from 'vue-router';
+import { message } from 'ant-design-vue/es';
+import { toDateString } from 'ele-admin-pro/es';
+import useFormData from '@/utils/use-form-data';
+import { setPageTabTitle } from '@/utils/page-tab-util';
+import { getGoods } from '@/api/work/rawMaterial/rmSupply';
+const ROUTE_PATH = '/work/sales/customers/details';
 
-  const { currentRoute } = useRouter();
+const { currentRoute } = useRouter();
 
-  // 用户信息
-  const { form, assignFields } = useFormData({
-    id: undefined,
-    platformRawMaterials: '',
-    supplyRawMaterials: '',
-    rmSpecification: '',
-    rmRemarks: '',
-    status: '',
-  });
+// 用户信息
+const { form, assignFields } = useFormData({
+  id: undefined,
+  unitName: '',
+  unitType: '',
+  cPhone: '',
+  cAddress: '',
+  status: '',
+});
 
-  // 请求状态
-  const loading = ref(true);
+// 请求状态
+const loading = ref(true);
 
-  /*  */
-  const query = () => {
-    const { query } = unref(currentRoute);
-    const id = query.id;
-    if (!id || form.id === Number(id)) {
+/*  */
+const query = () => {
+  const { query } = unref(currentRoute);
+  const id = query.id;
+  if (!id || form.id === Number(id)) {
+    return;
+  }
+  loading.value = true;
+  getGoods(Number(id))
+    .then((data) => {
+      loading.value = false;
+      assignFields({
+        ...data,
+        createTime: toDateString(data.createTime)
+      });
+      // 修改页签标题
+      if (unref(currentRoute).path === ROUTE_PATH) {
+        setPageTabTitle(data.name + '的信息');
+      }
+    })
+    .catch((e) => {
+      loading.value = false;
+      message.error(e.message);
+    });
+};
+
+watch(
+  currentRoute,
+  (route) => {
+    const { path } = unref(route);
+    if (path !== ROUTE_PATH) {
       return;
     }
-    loading.value = true;
-    getGoods(Number(id))
-      .then((data) => {
-        loading.value = false;
-        assignFields({
-          ...data,
-          createTime: toDateString(data.createTime)
-        });
-        // 修改页签标题
-        if (unref(currentRoute).path === ROUTE_PATH) {
-          setPageTabTitle(data.name + '的信息');
-        }
-      })
-      .catch((e) => {
-        loading.value = false;
-        message.error(e.message);
-      });
-  };
-
-  watch(
-    currentRoute,
-    (route) => {
-      const { path } = unref(route);
-      if (path !== ROUTE_PATH) {
-        return;
-      }
-      query();
-    },
-    { immediate: true }
-  );
+    query();
+  },
+  { immediate: true }
+);
 </script>
 
 <script>
-  export default {
-    name: 'SystemUserDetails'
-  };
+export default {
+  name: 'SystemUserDetails'
+};
 </script>

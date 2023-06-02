@@ -30,7 +30,6 @@ public class EngineeringController extends BaseController {
     @Resource
     private EngineeringService engineeringService;
 
-//    @PreAuthorize("hasAuthority('work:engineering:list')")
     @OperationLog
     @ApiOperation("分页查询")
     @GetMapping("/page")
@@ -42,7 +41,11 @@ public class EngineeringController extends BaseController {
         //return success(engineeringService.pageRel(param));
     }
 
+//<<<<<<< HEAD
+////    @PreAuthorize("hasAuthority('work:engineering:list')")
+//=======
 //    @PreAuthorize("hasAuthority('work:engineering:list')")
+//>>>>>>> 9f8fce640eef040f04bd68218a2150a1757dc662
     @OperationLog
     @ApiOperation("查询全部")
     @GetMapping()
@@ -54,7 +57,11 @@ public class EngineeringController extends BaseController {
         //return success(engineeringService.listRel(param));
     }
 
+//<<<<<<< HEAD
+////    @PreAuthorize("hasAuthority('work:engineering:list')")
+//=======
 //    @PreAuthorize("hasAuthority('work:engineering:list')")
+//>>>>>>> 9f8fce640eef040f04bd68218a2150a1757dc662
     @OperationLog
     @ApiOperation("根据id查询")
     @GetMapping("/{id}")
@@ -64,7 +71,11 @@ public class EngineeringController extends BaseController {
         //return success(engineeringService.getByIdRel(id));
     }
 
+//<<<<<<< HEAD
+////    @PreAuthorize("hasAuthority('work:engineering:save')")
+//=======
 //    @PreAuthorize("hasAuthority('work:engineering:save')")
+//>>>>>>> 9f8fce640eef040f04bd68218a2150a1757dc662
     @OperationLog
     @ApiOperation("添加")
     @PostMapping()
@@ -75,7 +86,11 @@ public class EngineeringController extends BaseController {
         return fail("添加失败");
     }
 
+//<<<<<<< HEAD
+////    @PreAuthorize("hasAuthority('work:engineering:update')")
+//=======
 //    @PreAuthorize("hasAuthority('work:engineering:update')")
+//>>>>>>> 9f8fce640eef040f04bd68218a2150a1757dc662
     @OperationLog
     @ApiOperation("修改")
     @PutMapping()
@@ -86,7 +101,11 @@ public class EngineeringController extends BaseController {
         return fail("修改失败");
     }
 
+//<<<<<<< HEAD
+////    @PreAuthorize("hasAuthority('work:engineering:remove')")
+//=======
 //    @PreAuthorize("hasAuthority('work:engineering:remove')")
+//>>>>>>> 9f8fce640eef040f04bd68218a2150a1757dc662
     @OperationLog
     @ApiOperation("删除")
     @DeleteMapping("/{id}")
@@ -96,8 +115,12 @@ public class EngineeringController extends BaseController {
         }
         return fail("删除失败");
     }
-
+//
+//<<<<<<< HEAD
+////    @PreAuthorize("hasAuthority('work:engineering:save')")
+//=======
 //    @PreAuthorize("hasAuthority('work:engineering:save')")
+//>>>>>>> 9f8fce640eef040f04bd68218a2150a1757dc662
     @OperationLog
     @ApiOperation("批量添加")
     @PostMapping("/batch")
@@ -108,7 +131,11 @@ public class EngineeringController extends BaseController {
         return fail("添加失败");
     }
 
+//<<<<<<< HEAD
+////    @PreAuthorize("hasAuthority('work:engineering:update')")
+//=======
 //    @PreAuthorize("hasAuthority('work:engineering:update')")
+//>>>>>>> 9f8fce640eef040f04bd68218a2150a1757dc662
     @OperationLog
     @ApiOperation("批量修改")
     @PutMapping("/batch")
@@ -119,7 +146,6 @@ public class EngineeringController extends BaseController {
         return fail("修改失败");
     }
 
-//    @PreAuthorize("hasAuthority('work:engineering:remove')")
     @OperationLog
     @ApiOperation("批量删除")
     @DeleteMapping("/batch")
