@@ -34,14 +34,14 @@ public class CodeGenerator {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/eleadmin?useUnicode=true&useSSL=false&characterEncoding=utf8";
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "zzl20001001";
+    private static final String DB_PASSWORD = "123456";
     // 包名
     private static final String PACKAGE_NAME = "com.eleadmin";
     // 模块名
     private static final String MODULE_NAME = "work";
     // 需要生成的表
     private static final String[] TABLE_NAMES = new String[]{
-            "sale_agreements",
+            "engineering",
 
     };
     // 需要去除的表前缀
@@ -53,11 +53,13 @@ public class CodeGenerator {
     private static final String[] PARAM_EXCLUDE_FIELDS = new String[]{
             "tenant_id",
             "create_time",
-            "update_time"
+            "update_time",
+            "begin_time"
     };
     // 查询参数使用String的类型
     private static final String[] PARAM_TO_STRING_TYPE = new String[]{
             "Date",
+            "DateTime",
             "LocalDate",
             "LocalTime",
             "LocalDateTime"

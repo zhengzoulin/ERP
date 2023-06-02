@@ -178,21 +178,6 @@ public class RawMaterialSupplierController extends BaseController {
         return success(rawMaterialSupplierService.list());
     }
 
-    @OperationLog
-    @ApiOperation("供应商添加原材料")
-    @GetMapping("/addSupplyRaw/{supplyId}/{RawId}")
-    public ApiResult<?> addSupplyRaw(@PathVariable("supplyId") Integer supplyId,
-                                     @PathVariable("RawId") Integer RawId) {
-
-        int supplyId1=supplyId;
-        int RawId1=RawId;
-        System.out.println("1:"+supplyId1+"   2:"+RawId1);
-        if (rawMaterialSupplierService.addSupplyRaw(supplyId1,RawId1)) {
-            return success("删除成功");
-        }
-        return fail("删除失败");
-    }
-
 
 
 }

@@ -20,7 +20,7 @@
                 AND a.c_phone LIKE CONCAT('%', #{param.cPhone}, '%')
             </if>
             <if test="param.cAdress != null">
-                AND a.c_adress LIKE CONCAT('%', #{param.cAdress}, '%')
+                AND a.c_adress LIKE CONCAT('%', #{param.cAddress}, '%')
             </if>
             <if test="param.status != null">
                 AND a.status = #{param.status}

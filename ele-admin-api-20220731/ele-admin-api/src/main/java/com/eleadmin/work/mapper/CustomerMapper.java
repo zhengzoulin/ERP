@@ -24,7 +24,7 @@ public interface CustomerMapper extends BaseMapper<Customer> {
      * @return List<Customer>
      */
     List<Customer> selectPageRel(@Param("page") IPage<Customer> page,
-                             @Param("param") CustomerParam param);
+                                 @Param("param") CustomerParam param);
 
     /**
      * 查询全部

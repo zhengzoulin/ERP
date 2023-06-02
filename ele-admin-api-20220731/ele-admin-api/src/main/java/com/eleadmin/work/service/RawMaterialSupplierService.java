@@ -45,6 +45,4 @@ public interface RawMaterialSupplierService extends IService<RawMaterialSupplier
     List<RawMaterialSupplier> getRmByid2(int id);
 
     boolean deleteRMById(int rrId);
-
-    boolean addSupplyRaw(int rmsId,int rmId);
 }

@@ -31,7 +31,8 @@ public class CustomerParam extends BaseParam {
 
     private String cPhone;
 
-    private String cAdress;
+    @QueryField(type = QueryType.EQ)
+    private String cAddress;
 
     @QueryField(type = QueryType.EQ)
     private Integer status;
